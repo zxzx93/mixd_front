@@ -19,7 +19,7 @@ const BEST_LIST_REQUEST = "home/BEST_LIST_REQUEST";
 const BEST_LIST_SUCCESS = "home/BEST_LIST_SUCCESS";
 const BEST_LIST_ERROR = "home/BEST_LIST_ERROR";
 
-// 베스트
+// 베스트 더보기
 const BEST_MORE_LIST_REQUEST = "home/BEST_MORE_LIST_REQUEST";
 const BEST_MORE_LIST_SUCCESS = "home/BEST_MORE_LIST_SUCCESS";
 const BEST_MORE_LIST_ERROR = "home/BEST_MORE_LIST_ERROR";
@@ -33,6 +33,11 @@ const NEW_LIST_ERROR = "home/NEW_LIST_ERROR";
 const NEW_MORE_LIST_REQUEST = "home/NEW_MORE_LIST_REQUEST";
 const NEW_MORE_LIST_SUCCESS = "home/NEW_MORE_LIST_SUCCESS";
 const NEW_MORE_LIST_ERROR = "home/NEW_MORE_LIST_ERROR";
+
+// 배너 리스트
+const BANNER_LIST_REQUEST = "home/BANNER_LIST_REQUEST";
+const BANNER_LIST_SUCCESS = "home/BANNER_LIST_SUCCESS";
+const BANNER_LIST_ERROR = "home/BANNER_LIST_ERROR";
 
 // 베스트 카테고리 ccaId
 const BEST_CCA_ID = "home/BEST_CCA_ID";
@@ -76,6 +81,11 @@ const initialState = {
     newMoreListDone: false,
     newMoreListError: false,
     newMoreLists: [],
+
+    bannerListLoading: false, // 배너 리스트
+    bannerListDone: false,
+    bannerListError: false,
+    bannerLists: [],
 };
 // 홈 리스트
 export const homeListInfo = (token, gender) => async (dispatch) => {
@@ -335,6 +345,39 @@ export const newMoreListInfo = (page, token, selectValue) => async (
     }
 };
 
+//배너 리스트
+export const bannerListInfo = () => async (
+    dispatch
+) => {
+    dispatch({ type: BANNER_LIST_REQUEST });
+    
+    try {
+        const bannerList = 
+             await axios.get(
+                  `${
+                      process.env.REACT_APP_API_URL
+                  }/api/banners/`,
+                  {
+                      headers: {
+                          Authorization: "Bearer " ,
+                      },
+                  }
+              )
+           
+        dispatch({
+            type: BANNER_LIST_SUCCESS,
+            payload: bannerList.data,
+        });
+    
+    } catch (error) {
+        console.log(error);
+        dispatch({
+            type: BANNER_LIST_ERROR,
+            payload: error.response,
+        });
+    }
+};
+
 const home = (state = initialState, action) =>
     produce(state, (draft) => {
         // console.log("action.payload", action.payload);
@@ -488,6 +531,24 @@ const home = (state = initialState, action) =>
                 draft.newMoreListLoading = false;
                 draft.newMoreListError = action.payload;
                 break;
+
+            case BANNER_LIST_REQUEST: // 배너 리스트
+                draft.bannerListLoading = true;
+                draft.bannerListDone = false;
+                draft.bannerListError = null;
+                break;
+
+            case BANNER_LIST_SUCCESS:
+                draft.bannerListLoading = false;
+                draft.bannerListDone = true;
+                draft.bannerLists = action.payload.data;
+                break;
+
+            case BANNER_LIST_ERROR:
+                draft.bannerListLoading = false;
+                draft.bannerListError = action.payload;
+                break;
+                
 
             default:
                 break;

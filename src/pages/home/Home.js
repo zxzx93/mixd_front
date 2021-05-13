@@ -7,14 +7,14 @@ import HomeStyled from "./HomeStyled";
 import Banner from "./components/Banner";
 import MasonryLayout from "./../../components/masonry/Masonry";
 import Popular from "./components/Popular";
-import { homeListInfo } from "../../store/modules/home";
+import { homeListInfo, bannerListInfo } from "../../store/modules/home";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { getUserToken } from "../../util/decryptUser";
 
 const Home = () => {
     const dispatch = useDispatch();
-    const { homeLists, homeListDone } = useSelector((state) => state.home);
+    const { homeLists, homeListDone , bannerLists, bannerListDone} = useSelector((state) => state.home);
     const { gender } = useSelector((state) => state.gender);
 
     console.log("홈 젠더", gender);
@@ -35,6 +35,12 @@ const Home = () => {
             item_img: "/images/banner_2.png",
         },
     ];
+    useEffect(() => {
+        dispatch(bannerListInfo());
+    }, [dispatch]);
+    console.log("banner",bannerListInfo);
+    console.log("배너리스트",bannerLists);
+
     const antIcon = (
         <LoadingOutlined
             style={{
@@ -53,7 +59,7 @@ const Home = () => {
         <HomeStyled>
             <div className="banner_wrap">
                 <div>
-                    <Banner lists={dummyLists} />
+                    <Banner lists={bannerLists} />
                 </div>
             </div>
 

@@ -8,7 +8,7 @@ import 'swiper/components/pagination/pagination.scss';
 
 const Banner = ({lists}) => {
     SwiperCore.use([Pagination]);
-
+    console.log("hhh",lists);
     return (
         <BannerStyled
             slidesPerView={1}
@@ -18,7 +18,7 @@ const Banner = ({lists}) => {
             {
                 lists.map((value, index) => 
                     <SwiperSlide key={index}>
-                        <Link to="#"><img src={value.item_img} alt="slider" /></Link>
+                        <Link to="#"><img src={value.ban_image} alt="slider" /></Link>
                     </SwiperSlide>
                 )
             }
