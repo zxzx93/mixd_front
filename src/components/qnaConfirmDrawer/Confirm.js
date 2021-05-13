@@ -29,9 +29,12 @@ function Confirm({
         onClose={onClose}
         visible={visible}
         headerStyle={{ textAlign: "center" }}
-        drawerStyle={{ borderRadius: "20px" }}
       >
-        <Button onClick={comfirmHandler}>확인</Button>
+        <Button onClick={comfirmHandler}
+        style={{    
+          width: "100%",
+          height: "40px",
+          borderRadius: "5px"}}>확인</Button>
       </Drawer>
     </>
   );

@@ -163,7 +163,9 @@ const ReplDrawerStyled = Styled(Drawer)`
                             height: ${dp(40)};
                         }
                     }
-
+                    .ant-comment-content {
+                        width: 500px;
+                    }
                     .ant-comment-content-author {
                         line-height: ${dp(20)};
                         margin-bottom: ${dp(4)};

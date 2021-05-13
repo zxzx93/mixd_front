@@ -4,12 +4,12 @@ import QnaAnsQuest from "./QnaAnsQuest";
 
 const QnaNonQuest = ({blockDelete, close}) => {
 
-  const [deleteIfo,setDeleteIfo] = useState(false);
+  const [deleteInfo,setDeleteInfo] = useState(false);
 
   const deleteBtn = () => {
-    setDeleteIfo(!deleteIfo)
+    setDeleteInfo(!deleteInfo)
   }
-  //console.log(deleteIfo);
+  //console.log(deleteInfo);
   
   const onCancel = () => {
     close()
@@ -18,13 +18,13 @@ const QnaNonQuest = ({blockDelete, close}) => {
 
   return ( comment ? 
     <QnaNonQuestStyled
-      title={ deleteIfo ? "삭제되었습니다." : "상품 문의를 삭제하시겠습니까?"}
+      title={ deleteInfo ? "삭제되었습니다." : "상품 문의를 삭제하시겠습니까?"}
       placement="bottom"
       closable={false}
       visible={blockDelete}
     >
       {
-        deleteIfo ? 
+        deleteInfo ? 
         <p className="success" 
         onClick={onCancel}
         >확인</p> :
@@ -33,7 +33,7 @@ const QnaNonQuest = ({blockDelete, close}) => {
         >삭제</p>
       }
       {
-        deleteIfo ?  "" :  
+        deleteInfo ?  "" :  
         <p className="cancel"
           onClick={onCancel}
         >취소</p>

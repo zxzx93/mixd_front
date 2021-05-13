@@ -4,11 +4,11 @@ import dp from "./../../components/styled/Dp";
 const InquireInfoStyled = Styled.div`
     @media screen and (max-width: 768px) {
         .select_wrap {
-            overflow: hidden;
+            //overflow: hidden;
             box-sizing: border-box;
             padding: ${dp([24, 8, 21, 8])};
             border-bottom: ${dp(1)} solid #F5F5F5;
-
+            height: 282px;
             > p {
                 font-size: ${dp(13)};
                 line-height: ${dp(16)};
@@ -36,6 +36,7 @@ const InquireInfoStyled = Styled.div`
                 .true__value-container {
                     padding: ${dp([0, 12])};
                     font-size: ${dp(13)};
+
                 }
 
                 .true__menu {
