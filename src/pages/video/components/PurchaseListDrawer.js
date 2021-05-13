@@ -15,15 +15,24 @@ import PurchaseListDrawerStyled from "./PurchaseListDrawerStyled";
 const PurchaseListDrawer = ({ visible, close, buyOpen }) => {
   const dispatch = useDispatch("");
   const { choiceItemLists, choiceItemValue } = useSelector(
-    state => state.items
+    (state) => state.items
   );
   const { token } = getUserToken();
+
+  const [allPrice, setAllprice] = useState(0); // 총 가격
+  useEffect(() => {
+    let price = 0;
+    choiceItemValue.forEach((element) => {
+      price += element.cde_price * element.cct_count;
+    });
+    setAllprice(price);
+  }, [choiceItemValue]);
 
   const openBuyDrawer = () => {
     buyOpen();
   };
 
-  const deleteList = cde_id => {
+  const deleteList = (cde_id) => {
     console.log("상품 삭제 !!", cde_id);
     dispatch(removeChoiceItemList(cde_id));
   };
@@ -31,7 +40,7 @@ const PurchaseListDrawer = ({ visible, close, buyOpen }) => {
   const inCart = () => {
     dispatch(addCartItem(choiceItemValue, token));
   };
-  
+
   const buyNow = () => {
     console.log("구매하기 !!");
   };
@@ -41,7 +50,7 @@ const PurchaseListDrawer = ({ visible, close, buyOpen }) => {
 
   useEffect(() => {
     // setOptionCount(choiceItemValue.cct_count);
-    choiceItemLists.forEach(ele => {
+    choiceItemLists.forEach((ele) => {
       setMaxCount(ele.cde_qty);
     });
   }, [choiceItemLists]);
@@ -79,7 +88,7 @@ const PurchaseListDrawer = ({ visible, close, buyOpen }) => {
         <>
           <div>
             <span>{choiceItemLists.length}개 상품</span>
-            <span>총 36,000원</span>
+            <span>총 {allPrice.toLocaleString()}원</span>
           </div>
           <div className="purchase_btns">
             <Button className="in_cart" onClick={inCart}>
@@ -127,7 +136,13 @@ const PurchaseListDrawer = ({ visible, close, buyOpen }) => {
                         +
                       </Button>
                     </div>
-                    <div className="cnt_price">{list.cde_price}원</div>
+                    <div className="cnt_price">
+                      {(
+                        choiceItemValue[index].cde_price *
+                        choiceItemValue[index].cct_count
+                      ).toLocaleString()}
+                      원
+                    </div>
                   </div>
                 </>
               </div>

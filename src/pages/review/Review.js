@@ -11,6 +11,7 @@ const { TabPane } = Tabs;
 function callback(key) {
   console.log(key);
 }
+console.log(React.version);
 
 const Review = () => {
   return (

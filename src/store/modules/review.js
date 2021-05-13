@@ -24,15 +24,14 @@ const GET_REVIEW_LISTS_REQUEST_SUCCESS =
   "review/GET_REVIEW_LISTS_REQUEST_SUCCESS";
 const GET_REVIEW_LISTS_REQUEST_ERROR = "review/GET_REVIEW_LISTS_REQUEST_ERROR";
 
-
 //  리뷰 작성
 const GET_REVIEW_LISTS_WRITE_REQUEST = "review/GET_REVIEW_LISTS_WRITE_REQUEST";
 const GET_REVIEW_LISTS_WRITE_REQUEST_SUCCESS =
   "review/GET_REVIEW_LISTS_WRITE_REQUEST_SUCCESS";
-const GET_REVIEW_LISTS_WRITE_REQUEST_ERROR = "review/GET_REVIEW_LISTS_WRITE_REQUEST_ERROR";
+const GET_REVIEW_LISTS_WRITE_REQUEST_ERROR =
+  "review/GET_REVIEW_LISTS_WRITE_REQUEST_ERROR";
 
 const initialState = {
-
   reviewNoneListLoading: false, // 리뷰
   reviewNoneListDone: false,
   reviewNoneListError: false,
@@ -59,8 +58,9 @@ const initialState = {
   reviewWriteLists: [],
 };
 
-// 리뷰
-export const reviewNoneListInfo = (token, cre_id) => async dispatch => {
+// 리뷰 리스트
+export const reviewNoneListInfo = (token, cre_id) => async (dispatch) => {
+  console.log("리뷰 리스트", cre_id);
   dispatch({ type: REVIEW_NONE_LISTS_REQUEST });
   try {
     const reviewNoneList = await axios.get(
@@ -84,7 +84,7 @@ export const reviewNoneListInfo = (token, cre_id) => async dispatch => {
 };
 
 // 회원이 쓴 리뷰
-export const reviewListInfo = (token, mem_id) => async dispatch => {
+export const reviewListInfo = (token, mem_id) => async (dispatch) => {
   dispatch({ type: REVIEW_LISTS_REQUEST });
   try {
     const reviewList = await axios.get(
@@ -108,7 +108,7 @@ export const reviewListInfo = (token, mem_id) => async dispatch => {
 };
 
 // 리뷰 작성여부
-export const reviewOrderWriteListInfo = (token, mem_id) => async dispatch => {
+export const reviewOrderWriteListInfo = (token, mem_id) => async (dispatch) => {
   dispatch({ type: REVIEW_WRITE_ORDER_LISTS_REQUEST });
   try {
     const reviewWriteOrderList = await axios.get(
@@ -132,7 +132,7 @@ export const reviewOrderWriteListInfo = (token, mem_id) => async dispatch => {
 };
 
 // 상품 디테일 - 회원이 쓴 리뷰
-export const itemsReviewListInfo = (token, cit_key) => async dispatch => {
+export const itemsReviewListInfo = (token, cit_key) => async (dispatch) => {
   console.log("cit_key::", cit_key);
   dispatch({ type: GET_REVIEW_LISTS_REQUEST });
   try {
@@ -158,7 +158,9 @@ export const itemsReviewListInfo = (token, cit_key) => async dispatch => {
 };
 
 // 리뷰작성
-export const reviewWriteListInfo = (token, cod_id,value) => async dispatch => {
+export const reviewWriteListInfo = (token, cod_id, value) => async (
+  dispatch
+) => {
   console.log("cod_id::", cod_id, value);
   dispatch({ type: GET_REVIEW_LISTS_WRITE_REQUEST });
   try {
@@ -184,22 +186,22 @@ export const reviewWriteListInfo = (token, cod_id,value) => async dispatch => {
 };
 
 const review = (state = initialState, action) =>
-  produce(state, draft => {
+  produce(state, (draft) => {
     switch (action.type) {
       case REVIEW_NONE_LISTS_REQUEST: // 리뷰
-      draft.reviewNoneListLoading = true;
-      draft.reviewNoneListDone = false;
-      draft.reviewNoneListError = null;
-      break;
-    case REVIEW_NONE_LISTS_SUCCESS:
-      draft.reviewNoneListLoading = false;
-      draft.reviewNoneListDone = true;
-      draft.reviewNoneLists = action.payload;
-      break;
-    case REVIEW_NONE_LISTS_ERROR:
-      draft.reviewNoneListLoading = false;
-      draft.reviewNoneListError = action.payload;
-      break;
+        draft.reviewNoneListLoading = true;
+        draft.reviewNoneListDone = false;
+        draft.reviewNoneListError = null;
+        break;
+      case REVIEW_NONE_LISTS_SUCCESS:
+        draft.reviewNoneListLoading = false;
+        draft.reviewNoneListDone = true;
+        draft.reviewNoneLists = action.payload;
+        break;
+      case REVIEW_NONE_LISTS_ERROR:
+        draft.reviewNoneListLoading = false;
+        draft.reviewNoneListError = action.payload;
+        break;
 
       case REVIEW_LISTS_REQUEST: // 회원이 쓴 리뷰
         draft.reviewListLoading = true;
@@ -246,7 +248,7 @@ const review = (state = initialState, action) =>
         draft.itemsReviewListError = action.payload;
         break;
 
-        case GET_REVIEW_LISTS_WRITE_REQUEST: // 리뷰작성
+      case GET_REVIEW_LISTS_WRITE_REQUEST: // 리뷰작성
         draft.reviewListWriteLoading = true;
         draft.reviewListWriteDone = false;
         draft.reviewListWriteError = null;

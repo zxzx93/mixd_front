@@ -65,7 +65,7 @@ const initialState = {
   choiceItemValue: [], // 장바구니 추가 시 넘길 데이터 (cde_id, count)
 };
 
-export const categoriesItem = id => async dispatch => {
+export const categoriesItem = (id) => async (dispatch) => {
   dispatch({ type: GET_CATEGORIES_ITEMS_REQUEST });
   try {
     const categoriesItemInfo = await axios.get(
@@ -85,12 +85,9 @@ export const categoriesItem = id => async dispatch => {
 };
 
 // 상품 디테일 정보 가져오기
-export const getItemsDetail = (
-  cit_key,
-  type,
-  token,
-  gender
-) => async dispatch => {
+export const getItemsDetail = (cit_key, type, token, gender) => async (
+  dispatch
+) => {
   dispatch({ type: GET_ITEMS_DETAIL_INFO_REQUEST });
   try {
     const itemsInfo = await axios.get(
@@ -115,7 +112,7 @@ export const getItemsDetail = (
 };
 
 // 상품 Comment 가져오기
-export const getComment = cit_key => async dispatch => {
+export const getComment = (cit_key) => async (dispatch) => {
   console.log("cit_key", cit_key);
   dispatch({ type: GET_COMMENT_REQUEST });
   try {
@@ -142,7 +139,7 @@ export const getComment = cit_key => async dispatch => {
 };
 
 // 상품 Comment 작성
-export const commentPost = (comment, cit_key, token) => async dispatch => {
+export const commentPost = (comment, cit_key, token) => async (dispatch) => {
   // console.log("상품 Comment 작성", comment, cit_key, token);
   dispatch({ type: POST_ITEMS_COMMENT_REQUEST });
   try {
@@ -171,7 +168,7 @@ export const commentPost = (comment, cit_key, token) => async dispatch => {
 };
 
 // 상품 Comment 삭제
-export const deleteComment = (cmt_id, token) => async dispatch => {
+export const deleteComment = (cmt_id, token) => async (dispatch) => {
   // console.log("삭제할 아이디랑 토큰 :::", cmt_id, token);
   dispatch({ type: DELETE_COMMENT_REQUEST });
   try {
@@ -195,7 +192,7 @@ export const deleteComment = (cmt_id, token) => async dispatch => {
 };
 
 // 아이템 상세보기
-export const getItemDetailInfo = cit_key => async dispatch => {
+export const getItemDetailInfo = (cit_key) => async (dispatch) => {
   console.log("아이템 상세보기. cit_key", cit_key);
   dispatch({ type: GET_ITEM_DETAIL_INFO_REQUEST });
   try {
@@ -217,10 +214,10 @@ export const getItemDetailInfo = cit_key => async dispatch => {
 };
 
 //옵션 선택한 아이템 리스트 정보
-export const choiceItemList = list => ({ type: CHOICE_ITEM_LISTS, list });
+export const choiceItemList = (list) => ({ type: CHOICE_ITEM_LISTS, list });
 
 //옵션 선택한 아이템 리스트 삭제
-export const removeChoiceItemList = cde_id => ({
+export const removeChoiceItemList = (cde_id) => ({
   type: REMOVE_CHOICE_ITEM_LISTS,
   cde_id,
 });
@@ -239,7 +236,7 @@ export const decreaseCount = (cde_id, index) => ({
 });
 
 const items = (state = initialState, action) =>
-  produce(state, draft => {
+  produce(state, (draft) => {
     // console.log(action.payload);
     console.log("리덕스", action.cde_id, action.index);
     switch (action.type) {
@@ -312,7 +309,7 @@ const items = (state = initialState, action) =>
         draft.commentDeleteLoading = false;
         draft.commentDeleteDone = true;
         draft.comment = state.comment.filter(
-          value => value.cmt_id !== Number(action.id)
+          (value) => value.cmt_id !== Number(action.id)
         );
         break;
       case DELETE_COMMENT_ERROR:
@@ -340,15 +337,16 @@ const items = (state = initialState, action) =>
         draft.choiceItemValue.push({
           cde_id: action.list.cde_id,
           cct_count: 1,
+          cde_price: action.list.cde_price,
         }); // 장바구니 추가 시 넘길 데이터
         break;
 
       case REMOVE_CHOICE_ITEM_LISTS: // 장바구니 추가 시 넘길 데이터 삭제
         draft.choiceItemLists = draft.choiceItemLists.filter(
-          value => value.cde_id !== action.cde_id
+          (value) => value.cde_id !== action.cde_id
         );
         draft.choiceItemValue = draft.choiceItemValue.filter(
-          value => value.cde_id !== action.cde_id
+          (value) => value.cde_id !== action.cde_id
         );
         break;
 
