@@ -3,22 +3,25 @@ import { useDispatch, useSelector } from "react-redux";
 import { Button } from "antd";
 
 import WriteReviewListStyled from "./WriteReviewListStyled";
-import { reviewOrderWriteListInfo ,reviewNoneListInfo} from "../../../store/modules/review";
+import { reviewNoneListInfo ,reviewOrderWriteListInfo } from "../../../store/modules/review";
 import { getUserToken } from "../../../util/decryptUser";
 
 const WriteReviewList = ({cre_id}) => {
   const dispatch = useDispatch();
-  const { reviewOrderWriteLists, reviewOrderWriteListDone } = useSelector(
+  const { reviewOrderWriteLists } = useSelector(
     (state) => state.review
   );
   const { user, token } = getUserToken();
 
+
+  console.log(cre_id, "cre_id");
+  
   useEffect(() => {
     dispatch(reviewOrderWriteListInfo(token, user.group.mem_id));
   }, [dispatch, reviewOrderWriteListInfo]);
 
   useEffect(() => {
-    dispatch(reviewNoneListInfo(token, cre_id));
+    dispatch(reviewNoneListInfo( cre_id));
   }, [dispatch, reviewNoneListInfo]);
 
   const [review, setReview] = useState([]);

@@ -13,7 +13,7 @@ import useInputs from "../../hooks/useInputs";
 
 const { TextArea } = Input;
 
-const ReviewWrite = ({ history ,match , cod_id }) => {
+const ReviewWrite = ({ cod_id }) => {
   const dispatch = useDispatch();
   const [codId, setCodId] = useState();
   const [checkSize, setCheckSize] = useState();  // 사이즈
@@ -22,7 +22,7 @@ const ReviewWrite = ({ history ,match , cod_id }) => {
   const [visibleSave, setVisibleSave] = useState(false);
   const { user, token } = getUserToken();
   const [fileList, setFileList] = useState([]);  // 사진
-  const {reviewWriteLists , reviewListWriteDone} =useSelector((state) => state.review);
+  // const {reviewWriteLists , reviewListWriteDone} =useSelector((state) => state.review);
   const [reviewWrite, setReviewWrite] = useState(false); // 리뷰 작성
   const [rate, setRate] = useState(""); // 별점
   
@@ -30,11 +30,14 @@ const ReviewWrite = ({ history ,match , cod_id }) => {
   const [tall, setTall] = useState(""); // 키
   const [weight, setWeight] = useState(""); // 몸무게
   const [handleSize, setHandleSize] = useState();  // 사이즈 선택
-  const [choiceSize, setChoiceSize] = useState();  //사이즈선택2
+  const [choiceSize, setChoiceSize] = useState();  //사이즈 선택2
   
   const onChange = ({ fileList: newFileList }) => {
     setFileList(newFileList);
   };
+
+  const [createId, setCreateId] = useState("")  // 리뷰 저장 아이디값
+
   const onPreview = async (file) => {
     let src = file.url;
     if (!src) {
@@ -58,7 +61,7 @@ const ReviewWrite = ({ history ,match , cod_id }) => {
     setVisibleShape(false);
   };
 
-  const showVisibleSave = () => {
+  const showVisibleSave = (createId) => {
     const value = 
     {
       cre_content: reviewWrite,
@@ -70,9 +73,10 @@ const ReviewWrite = ({ history ,match , cod_id }) => {
       clothes_type: handleSize,
       clothes_size: choiceSize
     }
-    console.log("리뷰작성 : ",token, cod_id, value);
+    setCreateId(cod_id)
+    console.log("리뷰작성 : ",token, createId, value);
     setVisibleSave(true);
-    dispatch(reviewWriteListInfo(token, cod_id, value))
+    dispatch(reviewWriteListInfo(token, createId, value))
 
   };
 
@@ -101,14 +105,6 @@ const ReviewWrite = ({ history ,match , cod_id }) => {
     dispatch(reviewOrderWriteListInfo(token, user.group.mem_id));
   }, [dispatch, reviewOrderWriteListInfo]);
 
-
-  useEffect(() => {
-    const codID = match.params.cod_id
-    console.log(match.params.cod_id);
-    setCodId(codID)
-  }, [match]);
-  
-
     // 사이즈
   const handleSizeChange = (e) => {
     console.log(e.target.value);
@@ -121,7 +117,7 @@ const ReviewWrite = ({ history ,match , cod_id }) => {
     setCheckColor(e.target.value);
   };
 
-  // 리뷰 작성
+  // 리뷰 텍스트 작성
   const handleTextChange = (e) => {
     console.log(e.target.value);
     setReviewWrite (e.target.value);

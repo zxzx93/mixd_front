@@ -6,6 +6,11 @@ const REVIEW_NONE_LISTS_REQUEST = "review/REVIEW_NONE_LISTS_REQUEST";
 const REVIEW_NONE_LISTS_SUCCESS = "review/REVIEW_NONE_LISTS_SUCCESS";
 const REVIEW_NONE_LISTS_ERROR = "review/REVIEW_NONE_LISTS_ERROR";
 
+// 리뷰 삭제
+const REVIEW_REMOVE_LIST_REQUEST = "review/REVIEW_REMOVE_LIST_REQUEST";
+const REVIEW_REMOVE_LIST_SUCCESS = "review/REVIEW_REMOVE_LIST_SUCCESS";
+const REVIEW_REMOVE_LIST_ERROR = "review/REVIEW_REMOVE_LIST_ERROR";
+
 // 회원이 쓴 리뷰
 const REVIEW_LISTS_REQUEST = "review/REVIEW_LISTS_REQUEST";
 const REVIEW_LISTS_SUCCESS = "review/REVIEW_LISTS_SUCCESS";
@@ -36,6 +41,11 @@ const initialState = {
   reviewNoneListDone: false,
   reviewNoneListError: false,
   reviewNoneLists: [],
+
+  reviewRemoveListLoading: false, // 리뷰 삭제
+  reviewRemoveListDone: false,
+  reviewRemoveListError: false,
+  reviewRemoveLists: [],
 
   reviewListLoading: false, // 회원이 쓴 리뷰
   reviewListDone: false,
@@ -82,6 +92,34 @@ export const reviewNoneListInfo = (token, cre_id) => async (dispatch) => {
     });
   }
 };
+
+// 리뷰 삭제
+export const reviewRemoveListInfo = (token, cre_id) => async (dispatch) => {
+  console.log("리뷰 remove", token,cre_id);
+  dispatch({ type: REVIEW_REMOVE_LIST_REQUEST });
+  try {
+    const reviewRemoveList = await axios.delete(
+      `${process.env.REACT_APP_API_URL}/api/review/${cre_id}`,
+      {
+        headers: {
+          Authorization: "Bearer " + token.accessToken,
+        },
+      }
+    );
+  console.log("리뷰 remove", reviewRemoveList);
+
+    dispatch({
+      type: REVIEW_REMOVE_LIST_SUCCESS,
+      payload: reviewRemoveList.data.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: REVIEW_REMOVE_LIST_ERROR,
+      payload: error.response,
+    });
+  }
+};
+
 
 // 회원이 쓴 리뷰
 export const reviewListInfo = (token, mem_id) => async (dispatch) => {
@@ -201,6 +239,22 @@ const review = (state = initialState, action) =>
       case REVIEW_NONE_LISTS_ERROR:
         draft.reviewNoneListLoading = false;
         draft.reviewNoneListError = action.payload;
+        break;
+
+      case REVIEW_REMOVE_LIST_REQUEST: // 리뷰 삭제
+        draft.reviewRemoveListLoading = true;
+        draft.reviewRemoveListDone = false;
+        draft.reviewRemoveListError = null;
+        break;
+      case REVIEW_REMOVE_LIST_SUCCESS:
+        draft.reviewRemoveListLoading = false;
+        draft.reviewRemoveListDone = true;
+        draft.reviewRemoveLists = action.payload;
+        // draft.reviewNoneLists = action.payload;
+        break;
+      case REVIEW_REMOVE_LIST_ERROR:
+        draft.reviewRemoveListLoading = false;
+        draft.reviewRemoveListError = action.payload;
         break;
 
       case REVIEW_LISTS_REQUEST: // 회원이 쓴 리뷰

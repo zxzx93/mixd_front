@@ -8,7 +8,7 @@ import { getUserToken } from "../../../util/decryptUser";
 
 const ReviewListsView = () => {
   const dispatch = useDispatch();
-  const { reviewLists, reviewListDone } = useSelector((state) => state.review);
+  const { reviewLists, reviewListDone, reviewRemoveListDone } = useSelector((state) => state.review);
   const { user, token } = getUserToken();
 
   console.log("리뷰리스트", reviewLists);
@@ -16,7 +16,7 @@ const ReviewListsView = () => {
 
   useEffect(() => {
     dispatch(reviewListInfo(token, user.group.mem_id));
-  }, [dispatch, reviewListInfo]);
+  }, [dispatch, reviewListInfo, reviewRemoveListDone]);
 
   return (
     <ReviewListsViewStyled>

@@ -6,6 +6,7 @@ import moment from "moment";
 import { useLocation } from "react-router-dom";
 import { isEmpty } from "lodash";
 import { DownOutlined } from "@ant-design/icons";
+import DreateReviewDrawer from '../../pages/review/components/DreateReviewDrawer';
 
 const { Panel } = Collapse;
 
@@ -30,6 +31,22 @@ const ReviewList = ({
     const date = moment(regDate).add(limit, "days");
     return moment(date).format("YYYY.MM.DD");
   };
+
+  const [deleteBtn, setDeleteBtn] = useState(false);
+  const [blockDelete, setBlockDelete] = useState(false);  
+
+  const [deleteId , setDeleteId] = useState(""); // 리뷰 삭제 아이디 값
+
+  const deletePop = (cre_id) => {
+    setDeleteId(cre_id)
+    setBlockDelete(true);
+  };
+
+  const onClose = () => {
+    setBlockDelete(false);
+  };
+
+  
 
   console.log("lists", lists);
 
@@ -145,8 +162,18 @@ const ReviewList = ({
                 <div className="review_change">
                   <span>{limitDate(value.cre_datetime)}</span>
                   <div className="change_btn">
-                    <div className="modify">수정</div>
-                    <div className="delete">삭제</div>
+                    <div className="modify" >수정</div>
+                    
+                    <div className="delete"
+                        onClick={() => deletePop(value.cre_id)}
+                        
+                     >삭제</div>
+
+                      <DreateReviewDrawer 
+                     blockDelete={blockDelete}
+                     close={onClose}
+                     deleteBtn={deleteBtn}
+                     deleteId={deleteId}/>
                   </div>
                 </div>
               )}
@@ -209,6 +236,7 @@ const ReviewList = ({
         <p className="review_non">작성한 리뷰가 없습니다.</p>
       )}
     </ReviewListStyled>
+    
   );
 };
 

@@ -27,14 +27,7 @@ const Home = () => {
 
     // console.log("homeLists", user);
 
-    const dummyLists = [
-        {
-            item_img: "/images/banner_1.png",
-        },
-        {
-            item_img: "/images/banner_2.png",
-        },
-    ];
+
     useEffect(() => {
         dispatch(bannerListInfo());
     }, [dispatch]);
