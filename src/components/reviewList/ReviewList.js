@@ -60,7 +60,7 @@ const ReviewList = ({
               <div className="review_title">
                 <div className="review_img">
                   <img
-                    src={`${process.env.REACT_APP_API_URL}${value.item.cit_file_2}`}
+                    src={`${value.item.cit_file_2}`}
                     alt="상품 사진"
                   />
                 </div>

@@ -1,8 +1,9 @@
 import React from "react";
 import ZzimRecentlyStyled from "./ZzimRecentlyStyled";
 import Masonry from "./../../../components/masonry/Masonry";
+import ZzimNoList from './ZzimNoList';
 
-const ZzimRecently = () => {
+const ZzimRecently = ({ list, keyValue }) => {
     const RecentLists = JSON.parse(sessionStorage.getItem("RecentlyViewed"));
 
     
@@ -10,6 +11,7 @@ const ZzimRecently = () => {
     return (
         <ZzimRecentlyStyled>
             <Masonry lists={RecentLists} />
+            <ZzimNoList list={list} keyValue={ keyValue}/>
         </ZzimRecentlyStyled>
     );
 };

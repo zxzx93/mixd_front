@@ -74,7 +74,7 @@ const Video = () => {
   let [copyValue, setCopyValue] = useState([]); // 아이템 전체 리스트들
 
   useEffect(() => {
-    cit_key && dispatch(getItemsDetail(cit_key, Number(7), token, gender));
+    cit_key && dispatch(getItemsDetail(cit_key, Number(1), token, gender));
   }, [cit_key]);
 
   useEffect(() => {

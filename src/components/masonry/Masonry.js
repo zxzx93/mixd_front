@@ -99,7 +99,7 @@ const MasonryLayout = ({ lists }) => {
                             >
                                 <div className="image_wrap">
                                     <img
-                                        src={`${process.env.REACT_APP_API_URL}${
+                                        src={`${
                                             value.item
                                                 ? value.item.cit_file_2
                                                 : value.cit_file_2

@@ -3,25 +3,23 @@ import { useDispatch, useSelector } from "react-redux";
 import { Button } from "antd";
 
 import WriteReviewListStyled from "./WriteReviewListStyled";
-import { reviewNoneListInfo ,reviewOrderWriteListInfo } from "../../../store/modules/review";
+import { reviewNoneListInfo ,reviewOrderWriteListInfo,reviewWriteListInfo } from "../../../store/modules/review";
 import { getUserToken } from "../../../util/decryptUser";
 
-const WriteReviewList = ({cre_id}) => {
+
+const WriteReviewList = ({cre_id,value}) => {
   const dispatch = useDispatch();
   const { reviewOrderWriteLists } = useSelector(
     (state) => state.review
   );
   const { user, token } = getUserToken();
 
-
-  console.log(cre_id, "cre_id");
-  
   useEffect(() => {
     dispatch(reviewOrderWriteListInfo(token, user.group.mem_id));
   }, [dispatch, reviewOrderWriteListInfo]);
 
   useEffect(() => {
-    dispatch(reviewNoneListInfo( cre_id));
+    dispatch(reviewNoneListInfo(cre_id));
   }, [dispatch, reviewNoneListInfo]);
 
   const [review, setReview] = useState([]);
@@ -43,7 +41,7 @@ const WriteReviewList = ({cre_id}) => {
             <div className="review_write_list">
               <div className="img_wrap">
                 <img
-                  src={`${process.env.REACT_APP_API_URL}${value.option.item.cit_file_2}`}
+                  src={`${value.option.item.cit_file_2}`}
                   alt="상품 사진"
                 />
               </div>

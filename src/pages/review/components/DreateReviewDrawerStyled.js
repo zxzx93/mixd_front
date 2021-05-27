@@ -4,7 +4,12 @@ import { Drawer } from 'antd';
 
 const DreateReviewDrawerStyled = Styled(Drawer)`
 @media screen and (max-width: 768px) {
+    .success {
 
+    }
+    .delete {
+
+    }
 }
 `;
 

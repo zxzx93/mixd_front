@@ -130,6 +130,7 @@ export const reviewListInfo = (token, mem_id) => async (dispatch) => {
       {
         headers: {
           Authorization: "Bearer " + token.accessToken,
+          
         },
       }
     );
@@ -196,17 +197,18 @@ export const itemsReviewListInfo = (token, cit_key) => async (dispatch) => {
 };
 
 // 리뷰작성
-export const reviewWriteListInfo = (token, cod_id, value) => async (
+export const reviewWriteListInfo = (token, cod_id, formData) => async (
   dispatch
 ) => {
-  console.log("cod_id::", cod_id, value);
+  console.log("cod_id::", cod_id, formData);
   dispatch({ type: GET_REVIEW_LISTS_WRITE_REQUEST });
   try {
-    const reviewWriteList = await axios.get(
-      `${process.env.REACT_APP_API_URL}/api/review/${cod_id}`,
+    const reviewWriteList = await axios.post(
+      `${process.env.REACT_APP_API_URL}/api/review/${cod_id}`,formData,
       {
         headers: {
           Authorization: "Bearer " + token.accessToken,
+          "Content-Type": "multipart/form-data",
         },
       }
     );

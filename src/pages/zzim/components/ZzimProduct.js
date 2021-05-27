@@ -6,8 +6,9 @@ import Masonry from "./../../../components/masonry/Masonry";
 import { zzimeWishListInfo } from "../../../store/modules/zzim";
 import { getUserToken } from "../../../util/decryptUser";
 import NoLoginPopUp from "../../../components/noLoginPopUp/NoLoginPopUp";
+import ZzimNoList from './ZzimNoList'
 
-const ZzimProduct = () => {
+const ZzimProduct = ({ list, keyValue }) => {
     const { token } = getUserToken();
     const dispatch = useDispatch();
     const [noLoginPop, setNoLoginPop] = useState(false);
@@ -16,7 +17,7 @@ const ZzimProduct = () => {
         (state) => state.zzim
     );
 
-    console.log(zzimListsInfo);
+    //console.log(zzimListsInfo);
 
     useEffect(() => {
         if (token) {
@@ -31,6 +32,7 @@ const ZzimProduct = () => {
         <ZzimProductStyled>
             <Masonry lists={zzimListsInfo} />
             <NoLoginPopUp setNoLoginPop={setNoLoginPop} modelCon={noLoginPop} />
+            <ZzimNoList list={list} keyValue={ keyValue}/>
         </ZzimProductStyled>
     );
 };

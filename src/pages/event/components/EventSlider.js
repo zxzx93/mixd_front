@@ -6,15 +6,16 @@ import { Swiper, SwiperSlide } from "swiper/react";
 
 const { TabPane } = Tabs;
 
-function callback(key) {
-    // console.log(key);
-}
+
 
 const EventSlider = ({ events }) => {
     console.log(events);
     console.log(events.event);
     console.log(events.end_event);
 
+    function callback(key) {
+    // console.log(key);
+}
     return (
         <EventSliderStyled className="eventWrap">
             <Tabs defaultActiveKey="1" onChange={callback}>
@@ -24,7 +25,7 @@ const EventSlider = ({ events }) => {
                             <SwiperSlide key={index}>
                                 <Link to={`/eventDetail/${value.bit_id}`}>
                                     <img
-                                        src={`${process.env.REACT_APP_API_URL}${value.event_img}`}
+                                        src={`${value.event_img}`}
                                         alt={value.ban_title}
                                     />
                                 </Link>
@@ -38,7 +39,7 @@ const EventSlider = ({ events }) => {
                             <SwiperSlide key={index}>
                                 <Link to={`/eventDetail/${value.bit_id}`}>
                                     <img
-                                        src={`${process.env.REACT_APP_API_URL}${value.event_img}`}
+                                        src={`${value.event_img}`}
                                         alt={value.ban_title}
                                     />
                                 </Link>

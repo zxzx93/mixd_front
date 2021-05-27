@@ -3,12 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 
 import ReviewListsViewStyled from "./ReviewListsViewStyled";
 import ReviewList from "./../../../components/reviewList/ReviewList";
-import { reviewListInfo } from "../../../store/modules/review";
+import { reviewListInfo,reviewWriteListInfo } from "../../../store/modules/review";
 import { getUserToken } from "../../../util/decryptUser";
 
-const ReviewListsView = () => {
+const ReviewListsView = ({reviewData,createId}) => {
   const dispatch = useDispatch();
-  const { reviewLists, reviewListDone, reviewRemoveListDone } = useSelector((state) => state.review);
+  const { reviewLists, reviewListDone, reviewRemoveListDone ,reviewWriteLists,reviewListWriteDone} = useSelector((state) => state.review);
   const { user, token } = getUserToken();
 
   console.log("리뷰리스트", reviewLists);
@@ -18,9 +18,13 @@ const ReviewListsView = () => {
     dispatch(reviewListInfo(token, user.group.mem_id));
   }, [dispatch, reviewListInfo, reviewRemoveListDone]);
 
+console.log(reviewData);
+
   return (
     <ReviewListsViewStyled>
-      <ReviewList useReview={true} lists={reviewLists} />
+      <ReviewList useReview={true} 
+      lists={reviewLists} 
+      />
     </ReviewListsViewStyled>
   );
 };
