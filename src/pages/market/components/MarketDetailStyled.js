@@ -4,11 +4,12 @@ import dp from '../../../components/styled/Dp';
 const MarketDetailStyled = styled.div`
     @media screen and (max-width: 768px) {
         overflow: hidden;
-        background-color: gray;
-        width: 100%;
-        height: ${dp(160)};
-        border-bottom-left-radius: ${dp(16)};
-        border-bottom-right-radius: ${dp(16)};
+        .wrap {
+            overflow: hidden;
+            width: 100%;
+            height: ${dp(160)};
+            border-bottom-left-radius: ${dp(16)};
+            border-bottom-right-radius: ${dp(16)};
 
         .img_wrap {
             float: left;
@@ -68,7 +69,7 @@ const MarketDetailStyled = styled.div`
                 }
             }
         }
-
+    
         .count_wrap {
             float: right;
             margin: ${dp([34, 20, 0, 0])};
@@ -96,6 +97,7 @@ const MarketDetailStyled = styled.div`
                 }
             }
         }
+    }
     }
 `;
 

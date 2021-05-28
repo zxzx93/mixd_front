@@ -92,7 +92,7 @@ const PlanDetailList = ({ lists }) => {
               >
                 <div className="image_wrap">
                   <img
-                    src={`${process.env.REACT_APP_API_URL}${value.itemInfo.cit_file_2}`}
+                    src={`${value.itemInfo.cit_file_2}`}
                     alt=""
                   />
                   <span

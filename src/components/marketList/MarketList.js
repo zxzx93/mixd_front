@@ -94,7 +94,7 @@ const MarketList = ({ lists, useRank }) => {
                                                       size={56}
                                                       icon={
                                                           <img
-                                                              src={`${process.env.REACT_APP_API_URL}${value.profile_img}`}
+                                                              src={`${value.profile_img}`}
                                                               alt=""
                                                           />
                                                       }
@@ -160,7 +160,7 @@ const MarketList = ({ lists, useRank }) => {
                                                                 to={`video/${ele.cit_key}`}
                                                             >
                                                                 <img
-                                                                    src={`${process.env.REACT_APP_API_URL}${ele.cit_file_2}`}
+                                                                    src={`${ele.cit_file_2}`}
                                                                     value={
                                                                         ele.cit_key
                                                                     }

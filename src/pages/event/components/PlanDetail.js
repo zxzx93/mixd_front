@@ -36,7 +36,7 @@ const PlanDetail = ({ match }) => {
         <>
           <div className="plan_image_wrap">
             <img
-              src={`${process.env.REACT_APP_API_URL}${planDetailList.planInfo.plan_img}`}
+              src={`${planDetailList.planInfo.plan_img}`}
               alt=""
             />
           </div>

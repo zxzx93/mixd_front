@@ -30,9 +30,9 @@ const ZzimProduct = ({ list, keyValue }) => {
 
     return (
         <ZzimProductStyled>
-            <Masonry lists={zzimListsInfo} />
+            {  zzimListsInfo ? <Masonry lists={zzimListsInfo} /> : <ZzimNoList list={list} keyValue={keyValue} />}
             <NoLoginPopUp setNoLoginPop={setNoLoginPop} modelCon={noLoginPop} />
-            <ZzimNoList list={list} keyValue={ keyValue}/>
+
         </ZzimProductStyled>
     );
 };

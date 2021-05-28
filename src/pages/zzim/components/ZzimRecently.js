@@ -6,12 +6,15 @@ import ZzimNoList from './ZzimNoList';
 const ZzimRecently = ({ list, keyValue }) => {
     const RecentLists = JSON.parse(sessionStorage.getItem("RecentlyViewed"));
 
-    
+
 
     return (
         <ZzimRecentlyStyled>
-            <Masonry lists={RecentLists} />
-            <ZzimNoList list={list} keyValue={ keyValue}/>
+            {RecentLists ?
+                <Masonry lists={RecentLists} /> :
+                <ZzimNoList list={list} keyValue={keyValue} />
+
+            }
         </ZzimRecentlyStyled>
     );
 };

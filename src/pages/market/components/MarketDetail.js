@@ -3,7 +3,7 @@ import MarketDetailStyled from "./MarketDetailStyled";
 import { Button } from "antd";
 
 const MarketDetail = ({ marketInfo }) => {
-    console.log(marketInfo);
+    console.log(marketInfo.marketInfo);
 
     const zzimClick = () => {
         console.log("마켓 찜 !!");
@@ -11,16 +11,18 @@ const MarketDetail = ({ marketInfo }) => {
 
     return (
         <MarketDetailStyled>
-            <div className="img_wrap">
+            <div className="wrap" 
+            style={{
+                backgroundImage: `url(${marketInfo.marketInfo.back_img})`,
+                backgroundRepeat: 'no-repeat',
+                backgroundSize: 'cover',
+            }}>
+            <div className="img_wrap" >
                 <div
                     className="market_img"
-                    style={{
-                        backgroundImage: `${process.env.REACT_APP_API_URL}${marketInfo.marketInfo.back_img}`,
-                    }}
                 >
-                    {/* <p>MiXD</p> */}
                     <img
-                        src={`${process.env.REACT_APP_API_URL}${marketInfo.marketInfo.profile_img}`}
+                        src={`${marketInfo.marketInfo.profile_img}`}
                         alt=""
                     />
                 </div>
@@ -37,29 +39,31 @@ const MarketDetail = ({ marketInfo }) => {
                 </div>
                 <ul className="market_hash">
                     {marketInfo.marketInfo.style1 === "" ||
-                    marketInfo.marketInfo.style1 === undefined ||
-                    marketInfo.marketInfo.style1 === null ? (
+                        marketInfo.marketInfo.style1 === undefined ||
+                        marketInfo.marketInfo.style1 === null ? (
                         ""
                     ) : (
                         <li>#{marketInfo.marketInfo.style1}</li>
                     )}
                     {marketInfo.marketInfo.style2 === "" ||
-                    undefined ||
-                    null ? (
+                        undefined ||
+                        null ? (
                         ""
                     ) : (
                         <li>#{marketInfo.marketInfo.style2}</li>
                     )}
-                    {marketInfo.marketInfo.age1 === ""||
-                    marketInfo.marketInfo.age1 === 0 || 
-                    marketInfo.marketInfo.age1 === undefined ||
-                    marketInfo.marketInfo.age1 === null ? (
+                    {marketInfo.marketInfo.age1 === "" ||
+                        marketInfo.marketInfo.age1 === 0 ||
+                        marketInfo.marketInfo.age1 === undefined ||
+                        marketInfo.marketInfo.age1 === null ? (
                         ""
                     ) : (
                         <li>#{marketInfo.marketInfo.age1}</li>
                     )}
                 </ul>
+
             </div>
+            
             <div className="count_wrap">
                 <ul>
                     <li>
@@ -75,6 +79,7 @@ const MarketDetail = ({ marketInfo }) => {
                         <span>리뷰</span>
                     </li>
                 </ul>
+            </div>
             </div>
         </MarketDetailStyled>
     );

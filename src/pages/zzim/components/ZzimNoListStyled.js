@@ -27,11 +27,13 @@ const ZzimNoListStyled = Styled.div`
             background-color:#fe1f54;
             border-radius: ${dp(21)};
             margin: ${dp(15)} auto ${dp(0)};
-
-            >p {
-                font-size: ${dp(14)}; 
+            a {
+                >p {
+                font-size: ${dp(14)};
                 color: #fff;
+                }
             }
+            
         }
     }
 }
