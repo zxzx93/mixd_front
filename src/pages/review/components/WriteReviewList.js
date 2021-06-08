@@ -3,11 +3,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { Button } from "antd";
 
 import WriteReviewListStyled from "./WriteReviewListStyled";
-import { reviewNoneListInfo ,reviewOrderWriteListInfo,reviewWriteListInfo } from "../../../store/modules/review";
+import { reviewNoneListInfo, reviewOrderWriteListInfo, reviewWriteListInfo } from "../../../store/modules/review";
 import { getUserToken } from "../../../util/decryptUser";
 
 
-const WriteReviewList = ({cre_id,value}) => {
+const WriteReviewList = ({ cre_id, value }) => {
   const dispatch = useDispatch();
   const { reviewOrderWriteLists } = useSelector(
     (state) => state.review
@@ -30,8 +30,6 @@ const WriteReviewList = ({cre_id,value}) => {
     setReview(reviewNull);
   }, [reviewOrderWriteLists]);
 
-  console.log("리뷰쓰기 리스트", reviewOrderWriteLists);
-  console.log(" review", review);
 
   return (
     <WriteReviewListStyled>

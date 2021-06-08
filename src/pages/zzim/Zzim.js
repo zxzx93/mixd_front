@@ -14,7 +14,7 @@ const Zzim = () => {
     const [keyValue, setKey] = useState("")
 
     function callback(key) {
-        console.log(key);
+        //console.log(key);
         setKey(key);
     }
     const dummyList = [

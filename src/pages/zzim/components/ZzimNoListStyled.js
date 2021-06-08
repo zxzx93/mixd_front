@@ -4,7 +4,7 @@ import dp from './../../../components/styled/Dp';
 const ZzimNoListStyled = Styled.div`
 @media screen and (max-width: 768px) {
     .zzim_box {
-        margin: ${dp(180)} auto ${dp(0)};
+        margin: ${dp(150)} auto ${dp(0)};
         text-align: center;
         
         .text_box {

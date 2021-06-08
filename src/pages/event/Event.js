@@ -25,7 +25,7 @@ const Event = () => {
       : dispatch(eventListInfo(token));
   }, [dispatch]);
 
-  console.log(bannerLists);
+  //console.log(bannerLists);
   // console.log(bannerLists.result.plan_id);
   return (
     <EventStyled>

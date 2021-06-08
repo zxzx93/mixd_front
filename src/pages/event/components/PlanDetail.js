@@ -27,7 +27,7 @@ const PlanDetail = ({ match }) => {
   }, [dispatch, planDetailListInfo]);
 
   console.log("밖", planDetailList);
-  console.log("밖", planDetailListDone);
+  //console.log("밖", planDetailListDone);
 
   return (
     <PlanDetailStyled>
@@ -36,7 +36,7 @@ const PlanDetail = ({ match }) => {
         <>
           <div className="plan_image_wrap">
             <img
-              src={`${planDetailList.planInfo.plan_img}`}
+              src={`${process.env.REACT_APP_API_URL}${planDetailList.planInfo.plan_img}`}
               alt=""
             />
           </div>

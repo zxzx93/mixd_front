@@ -1,12 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from "react-redux";
+
 import ReviewListStyled from "./ReviewListStyled";
 import { Rate, Button, Collapse } from "antd";
 import ImagesModal from "./components/ImagesModal";
 import moment from "moment";
-import { useLocation } from "react-router-dom";
-import { isEmpty } from "lodash";
+//import { isEmpty } from "lodash";
 import { DownOutlined } from "@ant-design/icons";
+
 import DreateReviewDrawer from '../../pages/review/components/DreateReviewDrawer';
+
+import { reviewModifyValue } from '../../store/modules/review';
 
 const { Panel } = Collapse;
 
@@ -16,9 +23,14 @@ const ReviewList = ({
   useReview,
   marketDetailReviewsDone,
 }) => {
+  const dispatch = useDispatch("");
+
+  const { valueItem } = useSelector((state) => state.review);
+
   const [modalVisible, setModalVisible] = useState(false);
 
   let location = useLocation();
+  const history = useHistory();
 
   const showModal = () => {
     setModalVisible(true);
@@ -32,10 +44,10 @@ const ReviewList = ({
     return moment(date).format("YYYY.MM.DD");
   };
 
-  const [deleteBtn, setDeleteBtn] = useState(false);
-  const [blockDelete, setBlockDelete] = useState(false);  
+  const [deleteBtn, setDeleteBtn] = useState(false);  //삭제 버튼
+  const [blockDelete, setBlockDelete] = useState(false);  //삭제 drawer
 
-  const [deleteId , setDeleteId] = useState(""); // 리뷰 삭제 아이디 값
+  const [deleteId, setDeleteId] = useState(""); // 리뷰 삭제 아이디 값
 
   const deletePop = (cre_id) => {
     setDeleteId(cre_id)
@@ -46,16 +58,16 @@ const ReviewList = ({
     setBlockDelete(false);
   };
 
-  
-
-  console.log("lists", lists);
+  const goToModify = (value) => {   //수정 클릭 시 리뷰작성페이지로 이동
+    console.log(value);
+    dispatch(reviewModifyValue(value));
+  }
 
   return (
     <ReviewListStyled useVideo={useVideo} useReview={useReview}>
       {lists.length !== 0 ? (
         lists.map((value, index) => (
           <div key={index}>
-            {console.log("리뷰", value)}
             <div className="review_content">
               <div className="review_title">
                 <div className="review_img">
@@ -140,7 +152,6 @@ const ReviewList = ({
                       <ul>
                         {value.images.map((img, index) => (
                           <li key={index} onClick={showModal}>
-                            {console.log(process.env.REACT_APP_API_URL, "img")}
                             <img
                               src={`${process.env.REACT_APP_API_URL}${img}`}
                               alt=""
@@ -162,25 +173,27 @@ const ReviewList = ({
                 <div className="review_change">
                   <span>{limitDate(value.cre_datetime)}</span>
                   <div className="change_btn">
-                    <div className="modify" >수정</div>
-                    
-                    <div className="delete"
-                        onClick={() => deletePop(value.cre_id)}
-                        
-                     >삭제</div>
+                    <Link to={`/reviewWrite/${value.cre_id}`}>
+                      <div className="modify"
+                        onClick={() => goToModify(value)}>수정</div>
+                    </Link>
 
-                      <DreateReviewDrawer 
-                     blockDelete={blockDelete}
-                     close={onClose}
-                     deleteBtn={deleteBtn}
-                     deleteId={deleteId}/>
+                    <div className="delete"
+                      onClick={() => deletePop(value.cre_id)}
+                    >삭제</div>
+
+                    <DreateReviewDrawer
+                      blockDelete={blockDelete}
+                      close={onClose}
+                      deleteBtn={deleteBtn}
+                      deleteId={deleteId} />
                   </div>
                 </div>
               )}
             </div>
             {value.cre_reply_datetime === null &&
-            value.cre_reply_datetime === null &&
-            value.crea_reply_mem_id === null ? (
+              value.cre_reply_datetime === null &&
+              value.crea_reply_mem_id === null ? (
               " "
             ) : (
               <div className="review_answer">
@@ -236,7 +249,7 @@ const ReviewList = ({
         <p className="review_non">작성한 리뷰가 없습니다.</p>
       )}
     </ReviewListStyled>
-    
+
   );
 };
 

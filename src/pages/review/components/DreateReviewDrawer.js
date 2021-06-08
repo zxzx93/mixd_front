@@ -5,12 +5,10 @@ import DreateReviewDrawerStyled from './DreateReviewDrawerStyled';
 import {reviewRemoveListInfo} from '../../../store/modules/review';
 import { getUserToken } from '../../../util/decryptUser'
 
-const DreateReviewDrawer = ({blockDelete, close,deleteId}) => {
+const DreateReviewDrawer = ({blockDelete, close, deleteId}) => {
   const dispatch = useDispatch();
   const {token} = getUserToken();
   
-  console.log(deleteId);
-
   const deleteBtn = () => {
   console.log(deleteId);
   

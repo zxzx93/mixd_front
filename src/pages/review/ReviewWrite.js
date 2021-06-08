@@ -1,29 +1,30 @@
-import React, {useState, useEffect} from "react";
-import {useDispatch, useSelector} from "react-redux";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import ReviewWriteStyled from "./ReviewWriteStyled";
 import SubHeader from "./../../components/header/SubHeader";
-import {Rate, Radio, Upload, Input, Button} from "antd";
+import { Rate, Radio, Upload, Input, Button } from "antd";
 import ImgCrop from "antd-img-crop";
 import ShapeDrawer from "./components/ShapeDrawer";
 import SaveReviewDrawer from "./components/SaveReviewDrawer";
-import {reviewOrderWriteListInfo, reviewWriteListInfo} from "../../store/modules/review";
-import {getUserToken} from "../../util/decryptUser";
+import { reviewOrderWriteListInfo, reviewWriteListInfo } from "../../store/modules/review";
+import { getUserToken } from "../../util/decryptUser";
 import useInputs from "../../hooks/useInputs";
 
-const {TextArea} = Input;
+import { reviewModifyValue} from '../../store/modules/review';
 
-const ReviewWrite = ({cod_id}) => {
+const { TextArea } = Input;
+
+const ReviewWrite = ({ cod_id ,value}) => {
     const dispatch = useDispatch();
-    const [codId, setCodId] = useState();
     const [checkSize, setCheckSize] = useState(); // 사이즈
     const [checkColor, setCheckColor] = useState(); // 색상
     const [visibleShape, setVisibleShape] = useState(false);
     const [visibleSave, setVisibleSave] = useState(false);
-    const {user, token} = getUserToken();
+    const { user, token } = getUserToken();
     const [fileList, setFileList] = useState([]); // 사진
     const [file, setFile] = useState([]); // 사진 //보내주는 데이터
-    const {reviewWriteLists, reviewListWriteDone} = useSelector(
+    const { reviewWriteLists, reviewListWriteDone } = useSelector(
         (state) => state.review
     );
     const [reviewWrite, setReviewWrite] = useState(false); // 리뷰 작성
@@ -35,10 +36,12 @@ const ReviewWrite = ({cod_id}) => {
     const [handleSize, setHandleSize] = useState(); // 사이즈 선택
     const [choiceSize, setChoiceSize] = useState(""); //사이즈 선택2
 
-   
+
     const [createId, setCreateId] = useState("") // 리뷰 저장 아이디값
 
     const [reviewData, setReviewData] = useState([]); //리뷰 작성 값
+
+
 
     const onPreview = async (file) => {
         let src = file.url;
@@ -59,7 +62,7 @@ const ReviewWrite = ({cod_id}) => {
 
     const onChange = ({ fileList: newFileList }) => {
         // let urlData = [];
-        
+
         // for (let index = 0; index < newFileList.length; index++) {
         //     urlData.push(newFileList[index].thumbUrl)
         //     // console.log("사진",urlData);
@@ -76,7 +79,7 @@ const ReviewWrite = ({cod_id}) => {
     const closeShape = () => {
         setVisibleShape(false);
     };
-    
+    console.log("handleSize", handleSize);
 
     const showVisibleSave = (createId) => {
 
@@ -91,25 +94,26 @@ const ReviewWrite = ({cod_id}) => {
         //     clothes_type: handleSize,
         //     clothes_size: String(choiceSize)
         // }
-        console.log("사진", file);
+        //console.log("사진", file);
 
-        
         const formData = new FormData();
-        
+
         formData.append("cre_score", rate); //별점
         formData.append("size_sadi", checkSize); //사이즈
         formData.append("color_sadi", checkColor); //색상
-        formData.append("img[]", JSON.stringify(fileList[0].originFileObj)); //이미지
+        formData.append("img", JSON.stringify(fileList[0].originFileObj)); //이미지
         formData.append("cre_content", reviewWrite); //리뷰작성
 
-      
+
         formData.append("tall", tall); // 옵션 : 키
         formData.append("weight", weight); // 옵션 : 몸무게
-        formData.append("clothes_type", handleSize); // 옵션 : 타입
+
+
+        formData.append("clothes_type", handleSize === 0 ? "" : handleSize); // 옵션 : 타입
         formData.append("clothes_size", choiceSize);  // 옵션 : 사이즈
-        
+
         formData.forEach(element => {
-            console.log("데이터",typeof element, element);
+            console.log("데이터", typeof element, element);
         });
 
         setCreateId(cod_id)
@@ -118,14 +122,13 @@ const ReviewWrite = ({cod_id}) => {
         dispatch(reviewWriteListInfo(token, createId, formData))
         setReviewData(formData);
     };
-    //console.log(fileList[0].originFileObj);
 
     const closeVisibleSave = () => {
         setVisibleSave(false);
     };
 
     //review를 썼는지 안썼는지 구분
-    const {reviewOrderWriteLists, reviewOrderWriteListDone} = useSelector(
+    const { reviewOrderWriteLists, reviewOrderWriteListDone } = useSelector(
         (state) => state.review
     );
 
@@ -166,19 +169,20 @@ const ReviewWrite = ({cod_id}) => {
         console.log(e);
         setRate(e)
     }
-
+    console.log(value);
+    
     return (
         <ReviewWriteStyled>
             {
                 review.map((value, index) => (
                     <div key={index}>
-                        <SubHeader name={value.option.item.cit_name}/>
+                        <SubHeader name={value.option.item.cit_name} />
                         <div className="score_wrap">
                             <div>
                                 <div>
                                     <img
                                         src={`${value.option.item.cit_file_2}`}
-                                        alt="상품 사진"/>
+                                        alt="상품 사진" />
                                 </div>
                                 <div>
                                     <p>
@@ -187,12 +191,12 @@ const ReviewWrite = ({cod_id}) => {
                                         {value.option.cde_title}
                                     </p>
                                     <Rate style={{
-                                            fontSize: 24
-                                        }}
+                                        fontSize: 24
+                                    }}
                                         // allowHalf={true}
                                         allowClear={false} autoFocus={false}
                                         // defaultValue={value}
-                                        onChange={rateValue}/>
+                                        onChange={rateValue} />
                                 </div>
                             </div>
                         </div>
@@ -201,17 +205,17 @@ const ReviewWrite = ({cod_id}) => {
                             <div>
                                 <div>사이즈</div>
                                 <Radio.Group value={checkSize} onChange={handleSizeChange}>
-                                    <Radio.Button value="small">작아요</Radio.Button>
-                                    <Radio.Button value="default">정사이즈</Radio.Button>
-                                    <Radio.Button value="large">커요</Radio.Button>
+                                    <Radio.Button value="작아요">작아요</Radio.Button>
+                                    <Radio.Button value="정사이즈">정사이즈</Radio.Button>
+                                    <Radio.Button value="커요">커요</Radio.Button>
                                 </Radio.Group>
                             </div>
                             <div>
                                 <div>색상</div>
                                 <Radio.Group value={checkColor} onChange={handleColorChange}>
-                                    <Radio.Button value="dark">어두워요</Radio.Button>
-                                    <Radio.Button value="default">화면과 같아요</Radio.Button>
-                                    <Radio.Button value="light">밝아요</Radio.Button>
+                                    <Radio.Button value="어두워요">어두워요</Radio.Button>
+                                    <Radio.Button value="화면과 같아요">화면과 같아요</Radio.Button>
+                                    <Radio.Button value="밝아요">밝아요</Radio.Button>
                                 </Radio.Group>
                             </div>
                         </div>
@@ -229,8 +233,8 @@ const ReviewWrite = ({cod_id}) => {
                                     onPreview={onPreview}>
                                     {
                                         fileList.length < 5 && (
-                                            <> < img src = "/images/review_camera.png" alt = "" /> <p>사진선택</p>
-                                        </>
+                                            <> < img src="/images/review_camera.png" alt="" /> <p>사진선택</p>
+                                            </>
                                         )
                                     }
                                 </Upload>
@@ -242,13 +246,13 @@ const ReviewWrite = ({cod_id}) => {
                             <TextArea
                                 className="create_review"
                                 placeholder={"리뷰를 작성해 주세요 :)"}
-                                onChange={handleTextChange}/>
+                                onChange={handleTextChange} />
                         </div>
 
                         <div className="shape_wrap">
                             <Button type="text" onClick={showShape}>
                                 나의 체형(선택)
-                                <img src="/images/arrow_r.png" alt=""/>
+                                <img src="/images/arrow_r.png" alt="" />
                             </Button>
                             <ShapeDrawer
                                 visible={visibleShape}
@@ -264,7 +268,7 @@ const ReviewWrite = ({cod_id}) => {
                                     setChoiceSize,
                                     setTall,
                                     setWeight
-                                }}/>
+                                }} />
                         </div>
 
                         <div className="review_notice">
@@ -286,7 +290,7 @@ const ReviewWrite = ({cod_id}) => {
                 ))
             }
 
-            <SaveReviewDrawer visible={visibleSave} close={closeVisibleSave}/>
+            <SaveReviewDrawer visible={visibleSave} close={closeVisibleSave} />
         </ReviewWriteStyled>
     );
 };

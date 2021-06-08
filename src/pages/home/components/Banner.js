@@ -8,7 +8,7 @@ import 'swiper/components/pagination/pagination.scss';
 
 const Banner = ({lists}) => {
     SwiperCore.use([Pagination]);
-    console.log("hhh",lists);
+    //console.log("hhh",lists);
     return (
         <BannerStyled
             slidesPerView={1}

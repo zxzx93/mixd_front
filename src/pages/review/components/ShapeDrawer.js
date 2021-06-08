@@ -5,23 +5,23 @@ import { Input, Button, Radio } from 'antd';
 import AddSizeDrawer from './AddSizeDrawer.js';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
-const ShapeDrawer = ({ visible, close , value, setValue}) => {
+const ShapeDrawer = ({ visible, close, value, setValue }) => {
 
-    const {handleSize,choiceSize,tall,weight} = value; 
-    const {setHandleSize, setChoiceSize,setTall,setWeight} = setValue; 
+    const { handleSize, choiceSize, tall, weight } = value;
+    const { setHandleSize, setChoiceSize, setTall, setWeight } = setValue;
 
     const name = '나의 체형(선택)';
-   
+
     const [visibleSize, setVisibleSize] = useState(false);
 
-    console.log("나의 체형 사이즈",handleSize, visibleSize, choiceSize ,tall,weight);
+    console.log("나의 체형 사이즈", handleSize, visibleSize, choiceSize, tall, weight);
 
     const [returnDom, setReturnDom] = useState();
-    
+
     // 상세사이즈 선택
     const handleSizeChange = e => {
         setChoiceSize(e.target.value)
-   
+
     }
     // 키
     const handleTallChange = e => {
@@ -29,7 +29,7 @@ const ShapeDrawer = ({ visible, close , value, setValue}) => {
     }
     // 몸무게
     const handleWeightChange = e => {
-        setWeight (e.target.value)
+        setWeight(e.target.value)
     }
     const sizeLists = [
         {
@@ -72,16 +72,17 @@ const ShapeDrawer = ({ visible, close , value, setValue}) => {
     const showSizeCheck = () => {
         setVisibleSize(true)
     }
-    
+
     const closeSizeCheck = () => {
         setVisibleSize(false)
     }
-    
+
     useEffect(() => {
         resetDom()
     }, [handleSize])
 
     const setStatus = (e) => {
+        console.log("번호", e);
         setHandleSize(e)
     }
 
@@ -93,26 +94,26 @@ const ShapeDrawer = ({ visible, close , value, setValue}) => {
                     slidesPerView={'auto'}
                 >
                     {
-                        sizeLists.map((value) => 
+                        sizeLists.map((value) =>
                             value.status === handleSize ?
-                            value.size.map((val, el) => 
-                            val >= 100 ?
-                                <SwiperSlide 
-                                    key={el} 
-                                    style={{ width: 60 }}
-                                    >
-                                    <Radio.Button value={val}>{val}</Radio.Button>
-                                    </SwiperSlide>
+                                value.size.map((val, el) =>
+                                    val >= 100 ?
+                                        <SwiperSlide
+                                            key={el}
+                                            style={{ width: 60 }}
+                                        >
+                                            <Radio.Button value={val}>{val}</Radio.Button>
+                                        </SwiperSlide>
+                                        :
+                                        <SwiperSlide
+                                            key={el}
+                                            style={{ width: 48 }}
+                                        >
+                                            <Radio.Button value={val}>{val}</Radio.Button>
+                                        </SwiperSlide>
+                                )
                                 :
-                                <SwiperSlide 
-                                    key={el} 
-                                    style={{ width: 48 }}
-                                >
-                                    <Radio.Button value={val}>{val}</Radio.Button>
-                                </SwiperSlide>
-                            )
-                            :
-                            null
+                                null
                         )
                     }
                 </Swiper>
@@ -126,7 +127,7 @@ const ShapeDrawer = ({ visible, close , value, setValue}) => {
             visible={visible}
             closable={false}
             afterVisibleChange={() =>
-                setStatus(0)
+                setStatus(!handleSize ? 0 : handleSize)
             }
             footer={
                 <div className="create_review_btn">
@@ -144,13 +145,13 @@ const ShapeDrawer = ({ visible, close , value, setValue}) => {
                 <div>
                     <div>
                         <p>키</p>
-                        <Input suffix="cm" 
-                        onChange={handleTallChange}/>
+                        <Input suffix="cm"
+                            onChange={handleTallChange} />
                     </div>
                     <div>
                         <p>몸무게</p>
-                        <Input suffix="kg" 
-                        onChange={handleWeightChange}/>
+                        <Input suffix="kg"
+                            onChange={handleWeightChange} />
                     </div>
                 </div>
             </div>
@@ -162,16 +163,16 @@ const ShapeDrawer = ({ visible, close , value, setValue}) => {
                     className="add_size_btn"
                 >
                     {
-                        sizeLists.map((value, index) => 
+                        sizeLists.map((value, index) =>
                             value.status === handleSize ?
-                            <span key={index}>
-                                {value.name}
-                                <img src="/images/arrow_d.png" alt="" />
-                            </span>
-                            :
-                            null
+                                <span key={index}>
+                                    {value.name}
+                                    <img src="/images/arrow_d.png" alt="" />
+                                </span>
+                                :
+                                null
                         )
-                    }    
+                    }
                 </Button>
 
                 <div className="swiper_test">
@@ -181,13 +182,13 @@ const ShapeDrawer = ({ visible, close , value, setValue}) => {
                 </div>
 
 
-                <AddSizeDrawer 
-                    visible={visibleSize} 
+                <AddSizeDrawer
+                    visible={visibleSize}
                     close={closeSizeCheck}
-                    changeValue={setStatus}
-                    value={handleSize} 
-                    lists={sizeLists}    
-                />               
+                    changeValue={(e) => setStatus(e)}
+                    value={handleSize}
+                    lists={sizeLists}
+                />
             </div>
         </ShapeDrawerStyled>
     )

@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import { Button, Upload } from "antd";
 
 import "cropperjs/dist/cropper.css";
+import ImgCrop from 'antd-img-crop';
 import ImagesUploadStyled from "./ImagesUploadStyled";
 import ModalPopUp from "./ModalPopUp";
+import EditDrawer from "./EditDrawer";
 
 const ImagesUpload = ({
   fileList,
@@ -42,6 +44,17 @@ const ImagesUpload = ({
     setIsModalVisible(true);
   };
 
+  const [editPopUp, setEditPopUp] = useState(false); //프로필,배경 사진팝업창
+  const [picDelete, setPicDelete] = useState(false); //사진 삭제
+
+  const edit = () => {
+    setEditPopUp(true);
+  };
+
+  const onClose = () => {
+    setEditPopUp(false);
+  };
+
   return (
     <ImagesUploadStyled>
       {/* <ImgCrop> */}
@@ -54,8 +67,17 @@ const ImagesUpload = ({
         onRemove={true}
         maxCount={1}
       >
-        <Button icon={<img src="/images/profile_cam.svg" alt="" />} />
+
+        <Button
+          icon={<img src="/images/profile_cam.svg" alt="" />}
+          onClick={edit} />
       </Upload>
+
+      {/* <EditDrawer
+        editPopUp={editPopUp}
+        close={onClose}
+        picDelete={picDelete}
+      /> */}
       {/* </ImgCrop> */}
 
       {cropData || user.mem_mypage_back ? (

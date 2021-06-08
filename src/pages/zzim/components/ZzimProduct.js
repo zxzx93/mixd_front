@@ -17,7 +17,7 @@ const ZzimProduct = ({ list, keyValue }) => {
         (state) => state.zzim
     );
 
-    //console.log(zzimListsInfo);
+    console.log(zzimListsInfo);
 
     useEffect(() => {
         if (token) {

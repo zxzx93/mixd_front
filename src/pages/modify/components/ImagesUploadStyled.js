@@ -49,8 +49,8 @@ const ImagesUploadStyled = styled.div`
           background-color: transparent;
           > img {
             display: block;
-            width: ${dp(24)};
-            margin: 0 auto;
+            width: ${dp(20)};
+            margin-left: ${dp(2)};
           }
         }
       }
@@ -59,12 +59,13 @@ const ImagesUploadStyled = styled.div`
       }
 
       .ant-upload-list-item-actions {
-        display: none;
+        //display: none;
+        top: 25%;
       }
 
       .ant-upload-list-item-info {
         &:before {
-          background-color: transparent;
+          background-color: gray;
         }
       }
 

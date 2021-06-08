@@ -17,7 +17,7 @@ const Home = () => {
     const { homeLists, homeListDone , bannerLists, bannerListDone} = useSelector((state) => state.home);
     const { gender } = useSelector((state) => state.gender);
 
-    console.log("홈 젠더", gender);
+    //console.log("홈 젠더", gender);
 
     const { token } = getUserToken();
 
@@ -31,8 +31,8 @@ const Home = () => {
     useEffect(() => {
         dispatch(bannerListInfo());
     }, [dispatch]);
-    console.log("banner",bannerListInfo);
-    console.log("배너리스트",bannerLists);
+    //console.log("banner",bannerListInfo);
+    //console.log("배너리스트",bannerLists);
 
     const antIcon = (
         <LoadingOutlined

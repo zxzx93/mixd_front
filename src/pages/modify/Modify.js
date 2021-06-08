@@ -17,7 +17,6 @@ import {
   hpChange,
 } from "../../store/modules/auth";
 import { userInfo, userInfoModify } from "../../store/modules/users";
-import Edit from './components/EditDrawer';
 import ModalList from "./components/ModalList";
 
 const Modify = () => {
@@ -242,7 +241,6 @@ const Modify = () => {
 
       {/* <form onSubmit={e => userInfoModifyHandler(e)}> */}
       <div className="profile_img_wrap">
-        {/* <Edit /> */}
         <ImagesUpload
           fileList={fileList}
           setFileList={setFileList}

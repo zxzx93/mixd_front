@@ -6,6 +6,11 @@ const REVIEW_NONE_LISTS_REQUEST = "review/REVIEW_NONE_LISTS_REQUEST";
 const REVIEW_NONE_LISTS_SUCCESS = "review/REVIEW_NONE_LISTS_SUCCESS";
 const REVIEW_NONE_LISTS_ERROR = "review/REVIEW_NONE_LISTS_ERROR";
 
+//리뷰 수정
+const REVIEW_MODIFY_LIST_REQUEST = "review/REVIEW_MODIFY_LIST_REQUEST";
+const REVIEW_MODIFY_LIST_SUCCESS = "review/REVIEW_MODIFY_LIST_SUCCESS";
+const REVIEW_MODIFY_LIST_ERROR = "review/REVIEW_MODIFY_LIST_ERROR";
+
 // 리뷰 삭제
 const REVIEW_REMOVE_LIST_REQUEST = "review/REVIEW_REMOVE_LIST_REQUEST";
 const REVIEW_REMOVE_LIST_SUCCESS = "review/REVIEW_REMOVE_LIST_SUCCESS";
@@ -36,11 +41,19 @@ const GET_REVIEW_LISTS_WRITE_REQUEST_SUCCESS =
 const GET_REVIEW_LISTS_WRITE_REQUEST_ERROR =
   "review/GET_REVIEW_LISTS_WRITE_REQUEST_ERROR";
 
+// 리뷰 수정데이터  
+const REVIEW_MODIFY_LIST = "review/REVIEW_MODIFY_LIST";
+
 const initialState = {
   reviewNoneListLoading: false, // 리뷰
   reviewNoneListDone: false,
   reviewNoneListError: false,
   reviewNoneLists: [],
+
+  reviewModifyListLoading: false, // 리뷰 수정
+  reviewModifyListDone: false,
+  reviewModifyListError: false,
+  reviewModifyLists: [],
 
   reviewRemoveListLoading: false, // 리뷰 삭제
   reviewRemoveListDone: false,
@@ -66,6 +79,8 @@ const initialState = {
   reviewListWriteDone: false,
   reviewListWriteError: false,
   reviewWriteLists: [],
+
+  valueItem: [],  //리뷰 수정데이터
 };
 
 // 리뷰 리스트
@@ -93,9 +108,34 @@ export const reviewNoneListInfo = (token, cre_id) => async (dispatch) => {
   }
 };
 
+// 리뷰 수정
+export const reviewModifyListInfo = (token, cre_id) => async (dispatch) => {
+  console.log("리뷰 수정", cre_id);
+  dispatch({ type: REVIEW_MODIFY_LIST_REQUEST });
+  try {
+    const reviewModifyList = await axios.put(
+      `${process.env.REACT_APP_API_URL}/api/review/${cre_id}`,
+      {
+        headers: {
+          Authorization: "Bearer " + token.accessToken,
+        },
+      }
+    );
+    dispatch({
+      type: REVIEW_MODIFY_LIST_SUCCESS,
+      payload: reviewModifyList.data.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: REVIEW_MODIFY_LIST_ERROR,
+      payload: error.response,
+    });
+  }
+};
+
 // 리뷰 삭제
 export const reviewRemoveListInfo = (token, cre_id) => async (dispatch) => {
-  console.log("리뷰 remove", token,cre_id);
+  console.log("리뷰 remove", token, cre_id);
   dispatch({ type: REVIEW_REMOVE_LIST_REQUEST });
   try {
     const reviewRemoveList = await axios.delete(
@@ -106,7 +146,7 @@ export const reviewRemoveListInfo = (token, cre_id) => async (dispatch) => {
         },
       }
     );
-  console.log("리뷰 remove", reviewRemoveList);
+    console.log("리뷰 remove", reviewRemoveList);
 
     dispatch({
       type: REVIEW_REMOVE_LIST_SUCCESS,
@@ -130,7 +170,7 @@ export const reviewListInfo = (token, mem_id) => async (dispatch) => {
       {
         headers: {
           Authorization: "Bearer " + token.accessToken,
-          
+
         },
       }
     );
@@ -204,7 +244,7 @@ export const reviewWriteListInfo = (token, cod_id, formData) => async (
   dispatch({ type: GET_REVIEW_LISTS_WRITE_REQUEST });
   try {
     const reviewWriteList = await axios.post(
-      `${process.env.REACT_APP_API_URL}/api/review/${cod_id}`,formData,
+      `${process.env.REACT_APP_API_URL}/api/review/${cod_id}`, formData,
       {
         headers: {
           Authorization: "Bearer " + token.accessToken,
@@ -225,6 +265,14 @@ export const reviewWriteListInfo = (token, cod_id, formData) => async (
   }
 };
 
+//리뷰 수정에 관한 데이터  
+export const reviewModifyValue = value => dispatch => {
+  dispatch({
+    type: REVIEW_MODIFY_LIST,
+    payload: value,
+  });
+};
+
 const review = (state = initialState, action) =>
   produce(state, (draft) => {
     switch (action.type) {
@@ -243,6 +291,25 @@ const review = (state = initialState, action) =>
         draft.reviewNoneListError = action.payload;
         break;
 
+      case REVIEW_MODIFY_LIST_REQUEST: // 리뷰 수정
+        draft.reviewModifyListLoading = true;
+        draft.reviewModifyListDone = false;
+        draft.reviewModifyListError = null;
+        break;
+      case REVIEW_MODIFY_LIST_SUCCESS:
+        draft.reviewModifyListLoading = false;
+        draft.reviewModifyListDone = true;
+        draft.reviewModifyLists = action.payload;
+        break;
+      case REVIEW_MODIFY_LIST_ERROR:
+        draft.reviewModifyListLoading = false;
+        draft.reviewModifyListError = action.payload;
+        break;
+
+      case REVIEW_MODIFY_LIST: // 리뷰 수정 데이터
+        draft.valueItem = action.payload;
+        break;
+
       case REVIEW_REMOVE_LIST_REQUEST: // 리뷰 삭제
         draft.reviewRemoveListLoading = true;
         draft.reviewRemoveListDone = false;
@@ -252,7 +319,6 @@ const review = (state = initialState, action) =>
         draft.reviewRemoveListLoading = false;
         draft.reviewRemoveListDone = true;
         draft.reviewRemoveLists = action.payload;
-        // draft.reviewNoneLists = action.payload;
         break;
       case REVIEW_REMOVE_LIST_ERROR:
         draft.reviewRemoveListLoading = false;

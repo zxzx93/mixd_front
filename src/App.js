@@ -82,7 +82,8 @@ function App() {
         <Route path="/orderComplete" component={OrderComplete} />
 
         <Route path="/review" component={Review} />
-        <Route path="/ReviewWrite" component={ReviewWrite} />
+        <Route exact path="/reviewWrite/:cre_id" component={ReviewWrite} />
+        <Route exact path="/reviewWrite" component={ReviewWrite} />
 
         <Route exact path="/mypage/modify" component={Modify} />
         <Route exact path="/mypage" component={Mypage} />

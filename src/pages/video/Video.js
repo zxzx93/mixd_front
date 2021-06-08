@@ -253,7 +253,7 @@ const Video = () => {
                   {list.item_image.map((img, index) => (
                     <SwiperSlide key={index}>
                       <img
-                        src={`${process.env.REACT_APP_API_URL}${img}`}
+                        src={`${img}`}
                         alt="상품 디테일 사진"
                       />
                     </SwiperSlide>

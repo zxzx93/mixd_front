@@ -3,7 +3,7 @@ import PlanStyled from "./PlanStyled";
 import { Link } from "react-router-dom";
 
 const Plan = ({ lists }) => {
-  c//onsole.log("lists 플랜", lists);
+  console.log("lists 플랜", lists);
 
   return (
     <PlanStyled>
@@ -11,7 +11,7 @@ const Plan = ({ lists }) => {
         <div className="plan_list" key={value.plan_id}>
           <Link to={`/planDetail/${value.plan_id}`}>
             <img
-              src={`${value.plan_img}`}
+              src={`${process.env.REACT_APP_API_URL}${value.plan_img}`}
               alt={value.title}
             />
           </Link>
